@@ -69,7 +69,7 @@
     const formData = new FormData();
     formData.append("file", file);
 
-    fetch("http://localhost:5000/upload", {
+    fetch("https://dr-anomaly-backend.onrender.com/upload", {
       method: "POST",
       body: formData
     })
