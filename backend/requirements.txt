@@ -2,3 +2,5 @@ flask #created backend
 werkzeug #for password security
 pandas #algorithm for anomaly detection
 flask-cors #bypasses CORS policy for frontend-backend communication
+gunicorn #production server for deployment
+numpy #algorithm for anomaly detection
