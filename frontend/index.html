@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Anomaly Detection</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link rel="stylesheet" href="./styles.css">
+
+
+
+</head>
+<body>
+
+  <div class="container wide" style="max-width: 900px;">
+    <h2>Time Series Anomaly Detection</h2>
+
+    <input type="file" id="csvFile">
+    <button onclick="uploadCSV()">Upload & Analyze</button>
+
+    <div id="report">
+  <canvas id="chart"></canvas>
+  <div id="summary"></div>
+</div>
+
+<div style="display: flex; gap: 12px; margin-top: 20px;">
+  <button onclick="downloadReport()">Download Report</button>
+  <button class="link-btn" onclick="goBack()">Back to Dashboard</button>
+  <button class="secondary-btn" onclick="logout()">Logout</button>
+</div>
+
+
+
+<script>
+  function logout() {
+    localStorage.removeItem("loggedInUser");
+    window.location.href = "login.html";
+  }
+</script>
+
+
+<script>
+  if (!localStorage.getItem("loggedInUser")) {
+    window.location.href = "login.html";
+  } 
+</script>
+
+
+<script>
+  function goBack() {
+    window.location.href = "dashboard.html";
+  }
+</script>
+
+
+<script>
+  let chart = null;
+  let lastData = null;
+
+  function uploadCSV() {
+    const fileInput = document.getElementById("csvFile");
+    const file = fileInput.files[0];
+
+    if (!file) {
+      alert("Please select a CSV file");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    fetch("http://localhost:5000/upload", {
+      method: "POST",
+      body: formData
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log("Upload response:", data);
+        drawChart(data);
+      })
+      .catch(err => console.error("Upload failed:", err));
+  }
+
+  function drawChart(data) {
+    lastData = data;
+
+    const ctx = document.getElementById("chart").getContext("2d");
+
+    const anomalyIndices = data.anomalies.map(a => a.index);
+    const pointColors = data.values.map((_, i) =>
+      anomalyIndices.includes(i) ? "red" : "blue"
+    );
+
+    if (chart) chart.destroy();
+
+    chart = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: data.timestamps,
+        datasets: [{
+          label: "Value",
+          data: data.values,
+          borderColor: "blue",
+          pointBackgroundColor: pointColors,
+          pointRadius: 5,
+          fill: false
+        }]
+      },
+      options: {
+        responsive: true
+      }
+    });
+
+    generateSummary(data);
+  }
+
+  function generateSummary(data) {
+    const summary = document.getElementById("summary");
+
+    let html = `
+      <h3>Anomaly Report Summary</h3>
+      <p><b>Time Column:</b> ${data.time_column}</p>
+      <p><b>Value Column:</b> ${data.value_column}</p>
+      <p><b>Total Records:</b> ${data.values.length}</p>
+      <p><b>Anomalies Detected:</b> ${data.anomalies.length}</p>
+    `;
+
+    if (data.anomalies.length > 0) {
+      html += "<ul>";
+      data.anomalies.forEach(a => {
+        html += `<li>Index ${a.index} → Value ${a.value} (Z=${a.z_score.toFixed(2)})</li>`;
+      });
+      html += "</ul>";
+    } else {
+      html += "<p>No anomalies detected.</p>";
+    }
+
+    summary.innerHTML = html;
+  }
+
+  async function downloadReport() {
+    if (!lastData) {
+      alert("Please upload and analyze a CSV first");
+      return;
+    }
+
+    const report = document.getElementById("report");
+    const canvas = await html2canvas(report, { scale: 2 });
+
+    const imgData = canvas.toDataURL("image/png");
+    const { jsPDF } = window.jspdf;
+
+    const pdf = new jsPDF("p", "mm", "a4");
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const imgHeight = (canvas.height * pageWidth) / canvas.width;
+
+    pdf.addImage(imgData, "PNG", 0, 10, pageWidth, imgHeight);
+    pdf.save("anomaly_report.pdf");
+  }
+</script>
+
+
+</body>
+</html>

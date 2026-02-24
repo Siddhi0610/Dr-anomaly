@@ -1,0 +1,103 @@
+* {
+  box-sizing: border-box;
+}
+
+
+body {
+  margin: 0;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+  background: radial-gradient(circle at top, #1e1e2f, #0f0f1a);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #eaeaf0;
+}
+
+.container {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 32px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.container.wide {
+  max-width: 950px;
+}
+
+h1, h2, h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="file"] {
+  width: 100%;
+  padding: 12px;
+  margin: 12px 0;
+  border-radius: 10px;
+  border: none;
+  font-size: 14px;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  outline: none;
+}
+
+input::placeholder {
+  color: #ccc;
+}
+
+button {
+  flex: 1;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+.secondary-btn {
+  background: linear-gradient(135deg, #e53e3e, #9b2c2c);
+}
+
+.link-btn {
+  background: linear-gradient(135deg, #38a169, #276749);
+}
+
+#message {
+  margin-top: 15px;
+  text-align: center;
+  font-weight: 500;
+  color: #fff;
+}
+
+canvas {
+  margin-top: 20px;
+  max-width: 100%;
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px;
+}
+
+#summary {
+  margin-top: 20px;
+  font-size: 14px;
+  line-height: 1.6;
+}

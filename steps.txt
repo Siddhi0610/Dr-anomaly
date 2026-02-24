@@ -1,0 +1,60 @@
+installed vs code as editor
+installed python version 3.11.7 as interpreter
+connected vs code to github
+integrated vs code with python interpreter
+
+installed flask-3.1.2-py3 by writing "pip install flask" in terminal of app.py
+tested flask server with hello world code to see if my backend is running
+i couldnt see hosted on http server , debugging began
+in the process of dbugging ,found pwd command for path , dir for showing all files contained in a specific folder
+python app.py for checking backend servers. finally got the link.
+
+
+
+
+modified app.py , database.py , models.py
+on modifying database.py , users.db file changed in its looks
+installed werkzeug
+
+in app.py , 
+1. created backend successfully 
+
+2. added user registration api - 
+Receives JSON from frontend
+Hashes password (security box checked)
+Stores user in database
+Prevents duplicate usernames
+
+3.added login api
+
+after app.py was developed , i had to run and test the server for the fact that it can accept a users data and perform user registration successfully.
+ps :) ik ik we cannot even see the buttons , page that tells us to register, but dw , we are building the functioning , not the looks , dont panic , ez. ez.
+
+to run i used python app.py
+to test i had option like "vs code rest client" "postman" and browser dev tools console , i used option 3
+
+any website that i would inspect on , would act as my frontend and talk to my backend server. since i did not have a valid frontend for now.
+i wrote js code to check functioning , but , error, i hit a "cors policy". my bing browser was not allowed to access my server due to security.
+i had two options , install a flask cors , add it to my requirements and app.py or use curl instruction in vs code terminal. i decided to go with curl
+
+i used terminal , curl cmd , encountered another error , my server wont respond
+we use cd cmd in trminal to open folder
+
+continuing , my sever wont respond. app.py or 1962 app.py or renaming , nothing worked
+You got stuck on:
+Windows filename handling
+PowerShell quirks
+A space in a filename
+
+tried dividing code into init-database.py , database initialisation successful. server still not eached
+tried another apptest.py. backend was running
+
+after 4 hrs , i strpped down app.py to pure basics , tried running register , got the successful registration msg.
+now i will build slowly slowly , converting it into post , json 
+
+we tried but it didnt work , so we went ahead to our old ways , install flask cors
+
+yeah flask cors worked , it offically said registration complete , username already exists
+
+csv upload and read allowance by pandas done. added it to numpy itself , created import pandas then created another @route for csv then checked the backend is alive then used a fetch function to deal with it and saw upload successful
+ 
