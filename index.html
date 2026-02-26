@@ -58,6 +58,8 @@
   let lastData = null;
 
   function uploadCSV() {
+
+    
     const fileInput = document.getElementById("csvFile");
     const file = fileInput.files[0];
 
@@ -159,6 +161,10 @@
   }
 </script>
 
+<div id="analysisOverlay" class="overlay hidden">
+  <div class="scanner"></div>
+  <p>Analyzing electricity consumption patterns…</p>
+</div>
 
 </body>
 </html>
